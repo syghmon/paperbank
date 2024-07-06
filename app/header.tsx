@@ -1,10 +1,10 @@
-'use client'
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { createPaper } from "@/convex/papers";
 import { SignInButton, UserButton } from "@clerk/nextjs";
 import { Authenticated, Unauthenticated } from "convex/react";
 import Image from 'next/image';
+import { HeaderActions } from "./header-actions";
 
 
 export function Header() {
@@ -14,19 +14,12 @@ export function Header() {
         <Image src="/logo.svg" width={40} height={40} alt="PaperBank Logo" />
         PaperBank
     </div>
+        <div className = "flex gap-4 items-center">
+            <ModeToggle />
 
-    <div>
-    
-    <Unauthenticated>
-      <SignInButton />
-    </Unauthenticated>
-    <Authenticated>
-    <div className="flex gap-4">
-    <ModeToggle />
-      <UserButton />
-      </div>
-    </Authenticated>
-    </div>
-    </div>
+            <HeaderActions />
+        </div>
+
+        </div>
     </div>;
 }

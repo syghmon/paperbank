@@ -1,33 +1,25 @@
 'use client'
 
-import { Button } from "@/components/ui/button";
-import { ModeToggle } from "@/components/ui/mode-toggle";
 import { api } from "@/convex/_generated/api";
-import { SignInButton, UserButton } from "@clerk/nextjs";
-import { Unauthenticated, Authenticated, useMutation, useQuery } from "convex/react";
+import { useQuery } from "convex/react";
+import { PaperCard } from "./paper-card";
+import CreatePaperButton from "./add-paper-button";
 
 export default function Home() {
 
   const papers = useQuery(api.papers.getPapers)
-  const createPaper = useMutation(api.papers.createPaper);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">      
-    <Unauthenticated>
-      <SignInButton />
-    </Unauthenticated>
-    <Authenticated>
-      <UserButton />
+    <main className="p-24 space-y-8">  
+    <div className = "flex justify-between items-center">
+    <h1 className = "text-4xl bold">My Papers</h1>
 
-      <ModeToggle />
-      <Button onClick= {() => {createPaper({title: 'hello world'})
+    <CreatePaperButton />
+    </div>
+      <div className="grid grid-cols-4 gap-4">
+      {papers?.map((pap) => <PaperCard paper={pap}/>)}
+      </div>
 
-      }}> ClickMe </Button>
-
-      {papers?.map((doc) => (
-        <div key={doc._id}>{doc.title}</div>
-      ))}
-    </Authenticated>
     </main>
   );
 }
