@@ -9,7 +9,7 @@ import {
     CardTitle,
   } from "@/components/ui/card"
 import { Doc } from "@/convex/_generated/dataModel";
-import { Eye,} from "lucide-react";
+import { Eye, Loader2,} from "lucide-react";
 import Link from "next/link";
   
 
@@ -21,7 +21,9 @@ return (
     <CardTitle>{paper.title}</CardTitle>
   </CardHeader>
   <CardContent>
-    <p>Card Content</p>
+    <div className="flex justify-center">
+    <p>{!paper.description ? <Loader2 className="animate-spin"/>: paper.description}</p>
+    </div>
   </CardContent>
   <CardFooter>
   <Button

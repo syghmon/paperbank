@@ -4,8 +4,10 @@ import { v } from "convex/values";
 export default defineSchema({
   papers: defineTable({
     title: v.string() ,
+    description: v.optional(v.string()),
     tokenIdentifier: v.string(),
     fileId: v.id("_storage"),
+
 
   }).index('by_tokenIdentifier', ['tokenIdentifier']),
   

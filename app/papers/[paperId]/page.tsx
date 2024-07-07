@@ -5,6 +5,11 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useQuery } from "convex/react";
 import ChatPanel from "./chat-panel";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import { TrashIcon } from "lucide-react";
+import { btnIconStyles, btnStyles } from "@/styles/styles";
+import { RemovePaperButton } from "./remove-paper-button";
 
 export default function PaperPage({
     params,
@@ -20,18 +25,33 @@ export default function PaperPage({
     const paper = useQuery(api.papers.getPaper, {
         paperId: params.paperId
     })
-
-    if (!paper) {
-        return <div>You don't have access</div>
-    }
-
     return (
 
         
         <main className="p-24 space-y-8">  
-            <div className = "flex justify-between items-center">
-                <h1 className = "text-4xl font-bold">{paper.title}</h1>
 
+
+            {!paper && (
+                <div className="space-y-4">
+                <div className="space-y-8">
+                    <div>
+                        <Skeleton className="h-[40px] w-[500px]"/>
+                    </div>
+                    <div className="flex gap-2">
+                        <Skeleton className="h-[40px] w-[80px]"/>
+                        <Skeleton className="h-[40px] w-[80px]"/>
+                    </div>
+                    
+                 </div>
+                    <div>
+                        <Skeleton className="h-[500px]"/>
+                        </div>
+                 </div>
+               
+            )}
+            {paper && (<><div className = "flex justify-between items-center">
+                <h1 className = "text-4xl font-bold">{paper.title}</h1>
+                    <RemovePaperButton paperId={paper._id}/>
                 
         </div>
         <div className="flex gap-12">
@@ -51,7 +71,8 @@ export default function PaperPage({
         </Tabs>  
               
 
-            </div>
+            </div></>)}
+            
         </main>
   );
 }

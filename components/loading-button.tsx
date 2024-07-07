@@ -5,17 +5,20 @@ import {Loader2} from "lucide-react";
 export function LoadingButton({
   isLoading, 
   children, 
-  loadingText
+  loadingText,
+  onClick,
 }: {
   isLoading: boolean, 
   children: React.ReactNode, 
-  loadingText: string
+  loadingText: string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }) {
   return (
     <Button 
     className="flex gap-1"
     disabled={isLoading} 
     type="submit"
+    onClick={(e) => {onClick?.(e);}}
     >
 
     {isLoading && <Loader2 className="animate-spin" />}

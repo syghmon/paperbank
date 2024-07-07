@@ -30,7 +30,7 @@ const formSchema = z.object({
 
 
 export default function AddPaperButton(
-  {onAdd,}: {onAdd: () => void}) {
+  {onAdd}: {onAdd: () => void}) {
 
   const createPaper = useMutation(api.papers.createPaper);
   const generateUploadUrl = useMutation(api.papers.generateUploadUrl);
@@ -57,6 +57,8 @@ export default function AddPaperButton(
     await createPaper({ 
       title: values.title, 
       fileId: storageId as Id<"_storage">,});
+
+    onAdd();
   }
 
   return <Form {...form}>
