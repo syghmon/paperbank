@@ -1,6 +1,6 @@
 'use client'
 
-import { PaperCard } from "@/app/paper-card";
+import { PaperCard } from "@/app/dashboard/papers/paper-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { api } from "@/convex/_generated/api";

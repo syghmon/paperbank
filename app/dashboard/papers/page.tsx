@@ -13,7 +13,7 @@ export default function Home() {
   const papers = useQuery(api.papers.getPapers)
 
   return (
-    <main className="p-24 space-y-8">  
+    <main className="space-y-8">  
     <div className = "flex justify-between items-center">
     <h1 className = "text-4xl font-bold">My Papers</h1>
 

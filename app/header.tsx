@@ -18,7 +18,7 @@ export function Header() {
             PaperBank
         </Link>
 
-        <nav> <Link href="/"
+        <nav> <Link href="/dashboard"
         className="hover:text-slate-300">
         Papers</Link>
         </nav>

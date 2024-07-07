@@ -10,6 +10,12 @@ export default defineSchema({
 
 
   }).index('by_tokenIdentifier', ['tokenIdentifier']),
+
+  notes: defineTable({
+    text: v.string(),
+    tokenIdentifier: v.string(),
+  }).index('by_tokenIdentifier', ['tokenIdentifier']),
+  
   
   chats: defineTable({
     paperId: v.id("papers") ,
