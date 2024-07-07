@@ -3,6 +3,8 @@
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useQuery } from "convex/react";
+import ChatPanel from "./chat-panel";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function PaperPage({
     params,
@@ -13,7 +15,8 @@ export default function PaperPage({
 
 }) {
     
-    console.log(params.paperId)
+
+    
     const paper = useQuery(api.papers.getPaper, {
         paperId: params.paperId
     })
@@ -23,6 +26,8 @@ export default function PaperPage({
     }
 
     return (
+
+        
         <main className="p-24 space-y-8">  
             <div className = "flex justify-between items-center">
                 <h1 className = "text-4xl font-bold">{paper.title}</h1>
@@ -30,11 +35,22 @@ export default function PaperPage({
                 
         </div>
         <div className="flex gap-12">
-            <div className="bg-gray-900 p-4 rounded flex-1 h-[600px]">
+        <Tabs defaultValue="paper" className="w-full">
+            <TabsList className="mb-2">
+            <TabsTrigger value="paper">Paper</TabsTrigger>
+            <TabsTrigger value="chat">Chat</TabsTrigger>
+            </TabsList>
+            <TabsContent value="paper">
+            <div className="bg-gray-900 p-4 rounded-xl flex-1 h-[500px]">
                     {paper.paperUrl && <iframe className="w-full h-full" src={paper.paperUrl} />}
             </div>
+            </TabsContent>
+            <TabsContent value="chat">
+                <ChatPanel paperId={paper._id}/>
+            </TabsContent>
+        </Tabs>  
               
-            <div className="w-[300px] bg-gray-900"></div>
+
             </div>
         </main>
   );
