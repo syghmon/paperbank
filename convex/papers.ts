@@ -4,6 +4,7 @@ import {api, internal} from "./_generated/api";
 import OpenAI from 'openai';
 import { Id } from "./_generated/dataModel";
 import { access } from "fs";
+import { embed } from "./notes";
 
 const openai = new OpenAI({
         apiKey: process.env.OPENAI_API_KEY,
@@ -199,12 +200,17 @@ export const fillInDescription = internalAction({
             model: 'gpt-3.5-turbo',
         });
 
-        const response = chatCompletion.choices[0].message.content ?? 'Could not figure out description';
+        const description = chatCompletion.choices[0].message.content ?? 'Could not figure out description';
+
+        const embedding = await embed(description);
 
         await ctx.runMutation(internal.papers.updatePaperDescription, {
             paperId: args.paperId,
-            description: response,
+            description: description,
+            embedding
         });
+
+
     },
 })
 
@@ -212,10 +218,12 @@ export const updatePaperDescription = internalMutation({
     args: {
         paperId: v.id("papers"),
         description: v.string(),
+        embedding: v.array(v.float64()),
     },
     async handler(ctx, args) {
         await ctx.db.patch(args.paperId, {
             description: args.description,
+            embedding: args.embedding,
         })
     }
 })
@@ -232,7 +240,7 @@ export const removePaper = mutation({
         if (!accessObject) {
             throw new ConvexError('you do not have access to this paper')
         }
-        
+          
         await ctx.storage.delete(accessObject.paper.fileId)
         await ctx.db.delete(args.paperId)
     }

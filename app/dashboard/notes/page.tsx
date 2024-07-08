@@ -5,10 +5,9 @@ import { api } from "@/convex/_generated/api";
 import Link from "next/link";
 
 export default function NotesPage() {
-    const notes = useQuery(api.notes.getNotes)
-    return <div className="">    
+    return (<div className="text-2xl font-bold">    
         Please select a note.
-    </div>
+    </div>)
     ;
 }
 
