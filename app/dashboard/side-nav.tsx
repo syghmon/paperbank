@@ -16,7 +16,7 @@ export default function SideNav() {
             <ul className="space-y-4">
                 <li>
                 <Link className={cn(
-                        "font-light text-xl flex gap-2 items-center hover:text-cyan-500",
+                        "font-light text-xl flex gap-2 items-center hover:text-cyan-400 dark:hover:text-cyan-100",
                         {
                         "text-cyan-400": pathname.endsWith("/dashboard/search")
                         }
@@ -27,7 +27,7 @@ export default function SideNav() {
                 </li>
                 <li>
                     <Link className={cn(
-                        "font-light text-xl flex gap-2 items-center hover:text-cyan-500",
+                        "font-light text-xl flex gap-2 items-center hover:text-cyan-400 dark:hover:text-cyan-100",
                         {
                         "text-cyan-400": pathname.endsWith("/dashboard/papers")
                         }
@@ -39,7 +39,7 @@ export default function SideNav() {
                 </li>
                 <li>
                 <Link className={cn(
-                        "font-light text-xl flex gap-2 items-center hover:text-cyan-500",
+                        "font-light text-xl flex gap-2 items-center hover:text-cyan-400 dark:hover:text-cyan-100",
                         {
                         "text-cyan-400": pathname.endsWith("/dashboard/notes")
                         }

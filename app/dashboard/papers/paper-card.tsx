@@ -30,7 +30,7 @@ return (
       asChild
       variant ="secondary"
       className="flex items-center gap-2"> 
-      <Link href={`/papers/${paper._id}`}>
+      <Link href={`dashboard/papers/${paper._id}`}>
           <Eye className="w-4 h-4" /> 
             View
       </Link>

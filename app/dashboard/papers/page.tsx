@@ -19,7 +19,8 @@ export default function Home() {
 
     <CreatePaperButton />
     </div>
-      {!papers && (<div className="grid grid-cols-4 gap-8">
+
+      {!papers && (<div className="grid grid-cols-4 gap-4">
         {new Array(8).fill("").map((_,i)=>(
           <Card className="h-[200px] p-6 flex flex-col justify-between">
             <Skeleton className="h-[20px] rounded"/>
