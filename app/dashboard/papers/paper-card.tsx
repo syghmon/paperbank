@@ -20,17 +20,17 @@ return (
   <CardHeader>
     <CardTitle>{paper.title}</CardTitle>
   </CardHeader>
-  <CardContent>
-    <div className="flex justify-center">
-    <p>{!paper.description ? <Loader2 className="animate-spin"/>: paper.description}</p>
-    </div>
-  </CardContent>
+    <CardContent>
+      <div className="flex justify-center">
+      <p>{!paper.description ? <Loader2 className="animate-spin"/>: paper.description}</p>
+      </div>
+    </CardContent>
   <CardFooter>
   <Button
       asChild
       variant ="secondary"
       className="flex items-center gap-2"> 
-      <Link href={`dashboard/papers/${paper._id}`}>
+      <Link href={`/dashboard/papers/${paper._id}`}>
           <Eye className="w-4 h-4" /> 
             View
       </Link>

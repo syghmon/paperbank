@@ -6,6 +6,7 @@ import { Authenticated, Unauthenticated } from "convex/react";
 import Image from 'next/image';
 import { HeaderActions } from "./header-actions";
 import Link from "next/link";
+import { BookMarked } from "lucide-react";
 
 
 
@@ -13,8 +14,8 @@ export function Header() {
     return <div className="z-10 relative dark:bg-slate-900 bg-slate-50 py-4">
     <div className="container mx-auto flex justify-between items-center">
     <div className= "flex gap-12 items-center">
-        <Link href="/" className = "flex items-center gap-4 text-2xl">
-            <Image src="/logo.svg" width={40} height={40} alt="PaperBank Logo" />
+        <Link href="/" className = "flex items-center gap-4 text-2xl font-bold">
+            <BookMarked className="black w-10 h-10"/>
             PaperBank
         </Link>
 
