@@ -57,7 +57,7 @@ export function SearchForm(
           render={({ field }) => (
             <FormItem className = "flex-1">
               <FormControl>
-                <Input placeholder="Search over all your notes and papers" {...field} />
+                <Input className="h-12 text-lg"placeholder="Search over all your notes and papers" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

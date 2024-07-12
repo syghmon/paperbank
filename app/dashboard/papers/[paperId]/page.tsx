@@ -9,7 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { TrashIcon } from "lucide-react";
 import { btnIconStyles, btnStyles } from "@/styles/styles";
-import { RemovePaperButton } from "./remove-paper-button";
+import { RemovePaperButton } from "../remove-paper-button";
 
 export default function PaperPage({
     params,

@@ -27,9 +27,9 @@ export function Header() {
           <Link href="/dashboard/recommendations" className="hover:text-slate-300">
             Recommendations
           </Link>
-          <Link href="/dashboard/settings" className="hover:text-slate-300">
+          {/* <Link href="/dashboard/settings" className="hover:text-slate-300">
             Settings
-          </Link>
+          </Link> */}
         </nav>
         <div className="flex items-center gap-4" style={{ minWidth: '150px' }}>
           <ModeToggle />

@@ -4,6 +4,7 @@ import { internalAction, internalMutation, mutation, query } from "./_generated/
 import OpenAI from 'openai';
 import { internal } from "./_generated/api";
 
+
 const openai = new OpenAI({
         apiKey: process.env.OPENAI_API_KEY,
 });

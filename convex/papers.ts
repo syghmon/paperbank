@@ -77,8 +77,10 @@ export const getPaper = query({
             return null;
         }
 
-        return {...accessObject.paper, 
-            paperUrl: await ctx.storage.getUrl(accessObject.paper.fileId)}
+    //TODO
+    return null;
+    //     return {...accessObject.paper, 
+    //         paperUrl: await ctx.storage.getUrl(accessObject.paper.fileId)}
     },
 })
 
@@ -86,12 +88,10 @@ export const getPaper = query({
 export const createPaper = mutation({
     args: {
         title: v.string(),
-        fileId: v.id("_storage"),
     },
 
     async handler(ctx, args) {
         const userId = (await ctx.auth.getUserIdentity())?.tokenIdentifier
-        console.log('userId', userId)
 
         if (!userId) {
             throw new ConvexError('unauthorized')
@@ -99,12 +99,10 @@ export const createPaper = mutation({
         const paperId = await ctx.db.insert('papers', {
             title: args.title,
             tokenIdentifier: userId,
-            fileId: args.fileId,
             description: "",
         })
 
         await ctx.scheduler.runAfter(0, internal.papers.fillInDescription, {
-            fileId: args.fileId,
             paperId,
         }
         )
@@ -130,13 +128,14 @@ export const askQuestion = action({
             throw new ConvexError('you do not have access to this paper')
         }
 
-        const file = await ctx.storage.get(accessObject.paper.fileId);
+        // const file = await ctx.storage.get(accessObject.paper.fileId);
 
-        if (!file) {
-            throw new ConvexError('file not found')
-        }
+        // if (!file) {
+        //     throw new ConvexError('file not found')
+        // }
 
-        const text = await file.text()
+        //const text = await file.text()
+        const text = "hello world"
 
         const chatCompletion: OpenAI.Chat.Completions.ChatCompletion = await openai.chat.completions.create({
             messages: [
@@ -174,18 +173,20 @@ export const askQuestion = action({
 
 export const fillInDescription = internalAction({
     args: {
-        fileId: v.id("_storage"),
         paperId: v.id("papers"),
     },
 
     async handler(ctx, args) {
-        const file = await ctx.storage.get(args.fileId);
+        //const file = await ctx.storage.get(args.fileId);
 
-        if (!file) {
-            throw new ConvexError('file not found')
-        }
+        // if (!file) {
+        //     throw new ConvexError('file not found')
+        // }
 
-        const text = await file.text()
+        
+        //TODO
+        //const text = await file.text()
+        const text = "this is world"
 
         const chatCompletion: OpenAI.Chat.Completions.ChatCompletion = await openai.chat.completions.create({
             messages: [
@@ -240,8 +241,6 @@ export const removePaper = mutation({
         if (!accessObject) {
             throw new ConvexError('you do not have access to this paper')
         }
-          
-        await ctx.storage.delete(accessObject.paper.fileId)
         await ctx.db.delete(args.paperId)
     }
 })

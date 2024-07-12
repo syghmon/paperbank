@@ -8,6 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Card } from "@/components/ui/card";
 import Image from 'next/image';
 import { useTheme } from "next-themes";
+import { Loader2 } from "lucide-react";
 
 export default function Home() {
 
@@ -33,16 +34,21 @@ export default function Home() {
     <CreatePaperButton />
     </div>
 
-      {!papers && (<div className="grid grid-cols-4 gap-4">
+      {/* {!papers && (<div className="grid grid-cols-4 gap-6">
         {new Array(8).fill("").map((_,i)=>(
-          <Card className="h-[200px] p-6 flex flex-col justify-between">
-            <Skeleton className="h-[20px] rounded"/>
-            <Skeleton className="h-[20px] rounded"/>
-            <Skeleton className="h-[20px] rounded"/>
-            <Skeleton className="w-[80px] h-[40px] rounded"/>
+          <Card key={"card" + i} className="h-[300px] p-6 flex flex-col justify-between">
+            <Skeleton key={"skelli1" + i} className="h-[30px] rounded"/>
+            <Skeleton key={"skelli2" + i} className="h-[30px] rounded"/>
+            <Skeleton key={"skelli3" + i} className="h-[30px] rounded"/>
+            <Skeleton key={"skelli4" + i} className="w-[120px] h-[60px] rounded"/>
           </Card>
         ))}
+        </div>)} */}
+
+        {!papers && (<div className="flex justify-center items-center">
+          <Loader2 className="h-10 w-10 animate-spin" />
         </div>)}
+
       
       {papers && papers.length === 0 && (
       <div className="py-16 flex flex-col items-center justify-center gap-8">
@@ -52,7 +58,7 @@ export default function Home() {
       </div>)}
 
       {papers && papers.length > 0 && (
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-4 gap-6">
       {papers?.map((pap) => <PaperCard key={pap._id} paper={pap}/>)}
       </div>)}
     </main>

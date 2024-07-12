@@ -15,7 +15,7 @@ export function LoadingButton({
 }) {
   return (
     <Button 
-    className="flex gap-1"
+    className="flex gap-1 h-12"
     disabled={isLoading} 
     type="submit"
     onClick={(e) => {onClick?.(e);}}

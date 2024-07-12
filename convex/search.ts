@@ -4,6 +4,8 @@ import { embed } from "./notes";
 import { api } from "./_generated/api";
 import { Doc } from "./_generated/dataModel";
 
+
+
 export const searchAction = action({
   args: {
     search: v.string(),
@@ -23,40 +25,25 @@ export const searchAction = action({
     });
 
     const paperResults = await ctx.vectorSearch("papers", "by_embedding", {
-        vector: embedding,
-        limit: 5,
-        filter: (q) => q.eq("tokenIdentifier", userId),
-      });
+      vector: embedding,
+      limit: 5,
+      filter: (q) => q.eq("tokenIdentifier", userId),
+    });
 
-
-    const records: ({type: 'notes'; score: number; record: Doc<"notes">} | {type: 'papers'; score: number; record: Doc<"papers">}) [] = []
-    await Promise.all(
-        noteResults
-            .map(async (result) => {
-        const note = await ctx.runQuery(api.notes.getNote, {
-            noteId: result._id});
-        if (!note) { return;}
-        records.push({type: 'notes', score: result._score, record: note});
-        
-        return {...note, type: 'note'};
-        })
-
-    );
+    const records: ({score: number; record: Doc<"papers">})[] = [];
 
     await Promise.all(
-        paperResults
-            .map(async (result) => {
+      paperResults.map(async (result) => {
         const paper = await ctx.runQuery(api.papers.getPaper, {
-            paperId: result._id});
-        if (!paper) { return;}
-        records.push({type: 'papers', score: result._score, record: paper});
-        
-        return {...paper, type: 'papers'};
-        })
-
+          paperId: result._id,
+        });
+        if (!paper) { return; }
+        records.push({ score: result._score, record: paper });
+        return { paper, type: 'papers' };
+      })
     );
 
-    records.sort((a,b) => b.score - a.score);
+    records.sort((a, b) => b.score - a.score);
     return records;
   },
 });
