@@ -1,10 +1,7 @@
 'use client'
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { api } from "@/convex/_generated/api";
-import { Doc, Id } from "@/convex/_generated/dataModel";
-import { askQuestion, generateUploadUrl } from "@/convex/papers";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAction } from "convex/react";
 import { useForm } from "react-hook-form";
@@ -31,11 +28,7 @@ export function SearchForm(
   {setResults}: {setResults: (notes: typeof api.search.searchAction._returnType) => void
 }) {
 
-    
-
     const searchAction = useAction(api.search.searchAction)
-
-
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),

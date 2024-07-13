@@ -10,29 +10,26 @@ import { Doc } from "@/convex/_generated/dataModel";
 import { Loader2, StickyNote } from "lucide-react";
 import Link from "next/link";
 import { RemovePaperButton } from "./remove-paper-button";
+import { NoteDialog } from "./note-dialog";
 
 export function PaperCard({ paper }: { paper: Doc<'papers'> }) {
   return (
-    <Card className="relative group h-full flex flex-col transition-colors duration-300 ease-in-out hover:bg-slate-200 dark:hover:bg-slate-700 hover:border-slate-300">
-      <Link href={`/dashboard/papers/${paper._id}`} className="absolute inset-0 z-10" />
-      <CardHeader className="relative z-20">
-        <CardTitle>{paper.title}</CardTitle>
-      </CardHeader>
-      <CardContent className="relative flex-grow flex justify-center items-center z-20">
-        <p>{!paper.description ? <Loader2 className="animate-spin" /> : paper.description}</p>
-      </CardContent>
-      <CardFooter className="relative z-20 flex justify-between items-end">
-        <Button
-          asChild
-          variant="secondary"
-          className="flex items-center gap-2 transition-colors duration-300 ease-in-out hover:bg-slate-300 dark:hover:bg-slate-900 z-30">
-
-            <Link href={`/dashboard/papers/${paper._id}/note`}>
-              <StickyNote className="w-4 h-4" />
-              Note
-            </Link>
-        </Button>
-        <div className="hidden group-hover:flex items-center z-30">
+    <Card className="relative group h-full flex flex-col transition-colors duration-300 ease-in-out">
+      <div className="hover:bg-slate-200 dark:hover:bg-slate-700 hover:border-slate-300 relative flex-grow">
+        <Link href={paper.url} className="absolute inset-0 z-10" target="_blank" rel="noopener noreferrer">
+          <span className="sr-only">{paper.title}</span>
+        </Link>
+        <CardHeader>
+          <CardTitle>{paper.title}</CardTitle>
+        </CardHeader>
+        <CardContent className="flex-grow flex justify-center items-center">
+          <p>{!paper.description ? <Loader2 className="animate-spin" /> : paper.description}</p>
+        </CardContent>
+      </div>
+      <hr className="border-t border-gray-300 dark:border-gray-600" />
+      <CardFooter onClick={(e) => e.stopPropagation()} className="flex justify-between items-center mt-auto z-20 pt-4">
+        <NoteDialog paper={paper} />
+        <div className="hidden group-hover:flex items-center">
           <RemovePaperButton paperId={paper._id} />
         </div>
       </CardFooter>

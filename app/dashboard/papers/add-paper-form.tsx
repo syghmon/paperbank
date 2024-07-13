@@ -4,7 +4,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useMutation } from "convex/react";
@@ -33,12 +32,21 @@ const formSchema = z.object({
   authors: z.string().optional(),
   id: z.string().optional(),
 });
-
 interface ArxivResult {
   id: string | null;
   title: string | null;
   summary: string | null;
   authors: string | null;
+  url: string | null;
+  published_date: string | null;
+  updated_date: string | null;
+  links: string[];
+  category: string | null;
+  primary_category: string | null;
+  comments: string | null;
+  affiliations: string[];
+  journal_ref: string | null;
+  doi: string | null;
 }
 
 async function fetchArxivResults(query: string): Promise<ArxivResult[]> {
@@ -52,10 +60,21 @@ async function fetchArxivResults(query: string): Promise<ArxivResult[]> {
     title: entry.getElementsByTagName("title")[0]?.textContent || null,
     summary: entry.getElementsByTagName("summary")[0]?.textContent || null,
     authors: Array.from(entry.getElementsByTagName("author")).map(author => author.getElementsByTagName("name")[0]?.textContent).join(", ") || null,
+    url: entry.getElementsByTagName("id")[0]?.textContent || null,
+    published_date: entry.getElementsByTagName("published")[0]?.textContent || null,
+    updated_date: entry.getElementsByTagName("updated")[0]?.textContent || null,
+    links: Array.from(entry.getElementsByTagName("link")).map(link => link.getAttribute('href') || ''),
+    category: entry.getElementsByTagName("category")[0]?.getAttribute('term') || null,
+    primary_category: entry.getElementsByTagName("arxiv:primary_category")[0]?.getAttribute('term') || null,
+    comments: entry.getElementsByTagName("arxiv:comment")[0]?.textContent || null,
+    affiliations: Array.from(entry.getElementsByTagName("arxiv:affiliation")).map(affiliation => affiliation.textContent || ''),
+    journal_ref: entry.getElementsByTagName("arxiv:journal_ref")[0]?.textContent || null,
+    doi: entry.getElementsByTagName("arxiv:doi")[0]?.textContent || null,
   }));
 
   return entries;
 }
+
 
 function debounce(func: (...args: any[]) => void, wait: number) {
   let timeout: NodeJS.Timeout;
@@ -116,7 +135,7 @@ const columns: ColumnDef<ArxivResult>[] = [
   },
 ];
 
-export default function AddPaperButton({ onAdd }: { onAdd: (papers: ArxivResult[]) => void }) {
+export default function AddPaperForm({ onAdd }: { onAdd: () => void }) {
   const createPaper = useMutation(api.papers.createPaper);
   const [searchResults, setSearchResults] = useState<ArxivResult[]>([]);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -134,11 +153,25 @@ export default function AddPaperButton({ onAdd }: { onAdd: (papers: ArxivResult[
     const selectedPapers = searchResults.filter((_, index) => rowSelection[index]);
     await Promise.all(selectedPapers.map(async (paper) => {
       await createPaper({
-        title: paper.title!,
+        title: paper.title ?? '',
+        url: paper.url ?? '',
+        published_date: paper.published_date ?? '',
+        updated_date: paper.updated_date ?? '',
+        summary: paper.summary ?? '',
+        authors: paper.authors ? paper.authors.split(', ') : [],
+        links: paper.links ?? [],
+        category: paper.category ?? '',
+        primary_category: paper.primary_category ?? '',
+        comments: paper.comments ?? '',
+        affiliations: paper.affiliations ?? [],
+        journal_ref: paper.journal_ref ?? '',
+        doi: paper.doi ?? '',
+        note: "",
       });
     }));
-    onAdd(selectedPapers); // Pass the selected papers to the callback
+    onAdd();
   };
+  
 
   const buildQuery = (title: string, authors?: string, id?: string) => {
     let queryParts: string[] = [];
@@ -286,9 +319,7 @@ export default function AddPaperButton({ onAdd }: { onAdd: (papers: ArxivResult[
         )}
         <LoadingButton
           isLoading={form.formState.isSubmitting}
-          loadingText="Adding..."
-          onClick={onSubmit} // Execute the onSubmit function when clicked
-        >
+          loadingText="Adding...">
           Add
         </LoadingButton>
       </form>

@@ -9,11 +9,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import AddPaperButton from "./add-paper-form";
+import AddPaperForm from "./add-paper-form";
 import { useState } from "react";
 import { Plus } from "lucide-react";
 
-export default function CreatePaperButton() {
+export default function AddPaperButton() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -30,7 +30,7 @@ export default function CreatePaperButton() {
           <DialogDescription>
             Search by title, author, or id.
           </DialogDescription>
-          <AddPaperButton onAdd={() => setIsOpen(false)} />
+          <AddPaperForm onAdd={() => setIsOpen(false)} />
         </DialogHeader>
       </DialogContent>
     </Dialog>

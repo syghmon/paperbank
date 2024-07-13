@@ -1,7 +1,7 @@
 "use client";
 
 import { ModeToggle } from "@/components/ui/mode-toggle";
-import { ClerkLoaded, ClerkLoading, SignInButton, UserButton } from "@clerk/nextjs";
+import { SignInButton, UserButton } from "@clerk/nextjs";
 import { AuthLoading, Authenticated, Unauthenticated } from "convex/react";
 import Link from "next/link";
 import { BookMarked } from "lucide-react";
@@ -27,9 +27,6 @@ export function Header() {
           <Link href="/dashboard/recommendations" className="hover:text-slate-300">
             Recommendations
           </Link>
-          {/* <Link href="/dashboard/settings" className="hover:text-slate-300">
-            Settings
-          </Link> */}
         </nav>
         <div className="flex items-center gap-4" style={{ minWidth: '150px' }}>
           <ModeToggle />

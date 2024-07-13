@@ -4,10 +4,7 @@ import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 import { PaperCard } from "./paper-card";
 import CreatePaperButton from "./add-paper-button";
-import { Skeleton } from "@/components/ui/skeleton"
-import { Card } from "@/components/ui/card";
 import Image from 'next/image';
-import { useTheme } from "next-themes";
 import { Loader2 } from "lucide-react";
 
 export default function Home() {
@@ -33,17 +30,6 @@ export default function Home() {
 
     <CreatePaperButton />
     </div>
-
-      {/* {!papers && (<div className="grid grid-cols-4 gap-6">
-        {new Array(8).fill("").map((_,i)=>(
-          <Card key={"card" + i} className="h-[300px] p-6 flex flex-col justify-between">
-            <Skeleton key={"skelli1" + i} className="h-[30px] rounded"/>
-            <Skeleton key={"skelli2" + i} className="h-[30px] rounded"/>
-            <Skeleton key={"skelli3" + i} className="h-[30px] rounded"/>
-            <Skeleton key={"skelli4" + i} className="w-[120px] h-[60px] rounded"/>
-          </Card>
-        ))}
-        </div>)} */}
 
         {!papers && (<div className="flex justify-center items-center">
           <Loader2 className="h-10 w-10 animate-spin" />

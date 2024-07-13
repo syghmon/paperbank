@@ -1,6 +1,5 @@
-import {Button} from "@/components/ui/button";
-import {Loader2} from "lucide-react";
-
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 
 export function LoadingButton({
   isLoading, 
@@ -15,14 +14,16 @@ export function LoadingButton({
 }) {
   return (
     <Button 
-    className="flex gap-1 h-12"
-    disabled={isLoading} 
-    type="submit"
-    onClick={(e) => {onClick?.(e);}}
+      className="flex gap-1 h-12"
+      disabled={isLoading} 
+      type="submit"
+      onClick={(e) => {
+        e.stopPropagation(); 
+        if (onClick) onClick(e);
+      }}
     >
-
-    {isLoading && <Loader2 className="animate-spin" />}
-    {isLoading ? loadingText : children}
-  </Button>
+      {isLoading && <Loader2 className="animate-spin" />}
+      {isLoading ? loadingText : children}
+    </Button>
   );
 }

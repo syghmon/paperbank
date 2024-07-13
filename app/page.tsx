@@ -2,11 +2,9 @@
 import { Button } from '@/components/ui/button';
 import { ClerkLoaded, ClerkLoading, SignInButton } from '@clerk/nextjs';
 import { useState } from 'react';
-import { Header } from './header';
 import Background from './background';
 
 export default function LandingPage() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <div className="relative min-h-screen overflow-hidden">
@@ -18,7 +16,7 @@ export default function LandingPage() {
               Keep Track Of All Your Research Readings.
             </h1>
             <p className="dark:text-gray-100 mt-6 text-lg leading-8 text-gray-600">
-              Import research papers directly from Arvix and manage them easily.
+              Import research papers directly from arvix and let us help you manage them.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <ClerkLoading>

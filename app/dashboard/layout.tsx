@@ -1,9 +1,3 @@
-import { ClipboardPen, Cog, FilesIcon, LayoutDashboard } from "lucide-react";
-import Link from "next/link";
-import SideNav from "./side-nav";
-
-
-
 
 export default function DashboardLayout({
   children,
