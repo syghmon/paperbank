@@ -13,10 +13,10 @@ export default function LandingPage() {
         <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
           <div className="text-center">
             <h1 className="dark:text-gray-50 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Keep Track Of All Your Research Readings.
+            Keep Your Research Library Organized
             </h1>
             <p className="dark:text-gray-100 mt-6 text-lg leading-8 text-gray-600">
-              Import research papers directly from arvix and let us help you manage them.
+            Easy Import and Management of arXiv Papers
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <ClerkLoading>
@@ -25,7 +25,7 @@ export default function LandingPage() {
                 </Button>
               </ClerkLoading>
               <ClerkLoaded>
-                <SignInButton>
+                <SignInButton signUpForceRedirectUrl="/dashboard/papers" forceRedirectUrl="/dashboard/papers">
                   <Button className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font dark:text-black text-white dark:bg-white bg-black">
                     Get started
                   </Button>

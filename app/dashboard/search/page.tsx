@@ -1,8 +1,11 @@
-"use client";
+'use client';
+
 import { useEffect, useState } from "react";
 import { SearchForm } from "./search-form";
 import { api } from "@/convex/_generated/api";
 import Link from "next/link";
+import { Protect, RedirectToSignIn } from "@clerk/nextjs";
+import { useUser } from '@clerk/clerk-react';
 
 function SearchResult({
   url,
@@ -31,6 +34,7 @@ function SearchResult({
 }
 
 export default function SearchPage() {
+  const { isSignedIn } = useUser();
   const [results, setResults] = useState<typeof api.search.searchAction._returnType>(null);
 
   useEffect(() => {
@@ -40,38 +44,43 @@ export default function SearchPage() {
   }, []);
 
   return (
-    <main className="w-full space-y-8 pb-44">
-      <div className="flex justify-between items-center">
-        <h1 className="text-4xl font-bold">Search</h1>
-      </div>
+    <Protect 
+      condition={() => isSignedIn || false} // Ensure the function always returns a boolean
+      fallback={<RedirectToSignIn />}
+    >
+      <main className="w-full space-y-8 pb-44">
+        <div className="flex justify-between items-center">
+          <h1 className="text-4xl font-bold">Search</h1>
+        </div>
 
-      <SearchForm
-        setResults={(searchResults) => {
-          setResults(searchResults);
-          localStorage.setItem("searchResults", JSON.stringify(searchResults));
-        }}
-      />
+        <SearchForm
+          setResults={(searchResults) => {
+            setResults(searchResults);
+            localStorage.setItem("searchResults", JSON.stringify(searchResults));
+          }}
+        />
 
-      <ul className="flex flex-col gap-4">
-        {results?.map((result) => {
-          const paper = result?.paper;
-          const url = paper?.url;
-          const title = paper?.title;
-          const summary = paper?.summary;
+        <ul className="flex flex-col gap-4">
+          {results?.map((result) => {
+            const paper = result?.paper;
+            const url = paper?.url;
+            const title = paper?.title;
+            const summary = paper?.summary;
 
-          if (!paper || !url || !title || !summary) return null;
+            if (!paper || !url || !title || !summary) return null;
 
-          return (
-            <SearchResult
-              key={paper._id}
-              url={url}
-              score={result.score}
-              title={title}
-              summary={summary}
-            />
-          );
-        })}
-      </ul>
-    </main>
+            return (
+              <SearchResult
+                key={paper._id}
+                url={url}
+                score={result.score}
+                title={title}
+                summary={summary}
+              />
+            );
+          })}
+        </ul>
+      </main>
+    </Protect>
   );
 }
