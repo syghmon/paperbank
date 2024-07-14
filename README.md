@@ -1,8 +1,18 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Just Launched:
 
+check it out at [PaperBank](https://paper-bank.com)
 
-I built this using NextJs, Convex, Clerk, Shadcn.
+---
+
+# What is this?
+
+A webapp to manage research papers.
+I built this using NextJs, Convex, Clerk and the arvix API. 
+It uses the arvix api to simplify the process of importing research papers.
+
 ## Getting Started
+
+
 
 First, run the development server:
 
