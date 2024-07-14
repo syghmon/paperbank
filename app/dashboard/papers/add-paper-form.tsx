@@ -50,7 +50,7 @@ interface ArxivResult {
 }
 
 async function fetchArxivResults(query: string): Promise<ArxivResult[]> {
-  const response = await fetch(`http://export.arxiv.org/api/query?${query}&sortBy=relevance&max_results=5`);
+  const response = await fetch(`https://export.arxiv.org/api/query?${query}&sortBy=relevance&max_results=5`);
   const text = await response.text();
   const parser = new DOMParser();
   const xmlDoc = parser.parseFromString(text, "text/xml");
@@ -185,7 +185,7 @@ export default function AddPaperForm({ onAdd }: { onAdd: () => void }) {
     }
   
     if (id) {
-      if (id.startsWith('http://') || id.startsWith('https://')) {
+      if (id.startsWith('https://') || id.startsWith('https://')) {
         id = extractIdFromUrl(id);
       }
       queryParts.push(`id_list=${id}`);
