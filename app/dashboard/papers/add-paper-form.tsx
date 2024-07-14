@@ -1,5 +1,4 @@
-'use client';
-
+// Other imports remain unchanged
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -32,6 +31,7 @@ const formSchema = z.object({
   authors: z.string().optional(),
   id: z.string().optional(),
 });
+
 interface ArxivResult {
   id: string | null;
   title: string | null;
@@ -103,6 +103,7 @@ const columns: ColumnDef<ArxivResult>[] = [
     accessorKey: "select",
     header: ({ table }) => (
       <Checkbox
+        id="select-all-checkbox"
         checked={table.getIsAllPageRowsSelected()}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
@@ -110,9 +111,10 @@ const columns: ColumnDef<ArxivResult>[] = [
     ),
     cell: ({ row }) => (
       <Checkbox
+        id={`select-row-checkbox-${row.id}`}
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
+        aria-label={`Select row ${row.id}`}
       />
     ),
     enableSorting: false,
@@ -134,6 +136,7 @@ const columns: ColumnDef<ArxivResult>[] = [
     cell: ({ row }) => <div>{extractIdFromUrl(row.getValue("id")!)}</div>,
   },
 ];
+
 
 export default function AddPaperForm({ onAdd }: { onAdd: () => void }) {
   const createPaper = useMutation(api.papers.createPaper);
@@ -171,30 +174,29 @@ export default function AddPaperForm({ onAdd }: { onAdd: () => void }) {
     }));
     onAdd();
   };
-  
 
   const buildQuery = (title: string, authors?: string, id?: string) => {
     let queryParts: string[] = [];
-  
+
     if (title) {
       queryParts.push(`search_query=ti:${title}`);
     }
-  
+
     if (authors) {
       queryParts.push(`au:${authors}`);
     }
-  
+
     if (id) {
       if (id.startsWith('https://') || id.startsWith('https://')) {
         id = extractIdFromUrl(id);
       }
       queryParts.push(`id_list=${id}`);
     }
-  
+
     if (queryParts.length === 0) {
       return `search_query=all`; // Fallback query if no parameters provided
     }
-  
+
     return queryParts.join('&');
   };
 
@@ -213,22 +215,44 @@ export default function AddPaperForm({ onAdd }: { onAdd: () => void }) {
     onRowSelectionChange: setRowSelection,
   });
 
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+  return (<Form {...form}>
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <FormField
+        control={form.control}
+        name="searchQuery"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel htmlFor="searchQuery">Search for Papers</FormLabel>
+            <FormControl>
+              <Input
+                id="searchQuery"
+                placeholder="Enter paper title or keywords"
+                {...field}
+                onChange={(e) => {
+                  field.onChange(e);
+                  onSearch(e.target.value, form.getValues("authors"), form.getValues("id"));
+                }}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <div className="flex gap-4">
         <FormField
           control={form.control}
-          name="searchQuery"
+          name="authors"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Search for Papers</FormLabel>
+            <FormItem className="flex-1">
+              <FormLabel htmlFor="authors">Authors</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Enter paper title or keywords"
+                  id="authors"
+                  placeholder="Enter authors"
                   {...field}
                   onChange={(e) => {
                     field.onChange(e);
-                    onSearch(e.target.value, form.getValues("authors"), form.getValues("id"));
+                    onSearch(form.getValues("searchQuery"), e.target.value, form.getValues("id"));
                   }}
                 />
               </FormControl>
@@ -236,93 +260,74 @@ export default function AddPaperForm({ onAdd }: { onAdd: () => void }) {
             </FormItem>
           )}
         />
-        <div className="flex gap-4">
-          <FormField
-            control={form.control}
-            name="authors"
-            render={({ field }) => (
-              <FormItem className="flex-1">
-                <FormLabel>Authors</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Enter authors"
-                    {...field}
-                    onChange={(e) => {
-                      field.onChange(e);
-                      onSearch(form.getValues("searchQuery"), e.target.value, form.getValues("id"));
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="id"
-            render={({ field }) => (
-              <FormItem className="flex-1">
-                <FormLabel>Link or ID</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Enter link to paper or ID"
-                    {...field}
-                    onChange={(e) => {
-                      field.onChange(e);
-                      onSearch(form.getValues("searchQuery"), form.getValues("authors"), e.target.value);
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        {searchResults.length > 0 && (
-          <FormItem>
-            <FormLabel>Select Papers</FormLabel>
-            <div className="rounded-md border">
-              <Table>
-                <TableHeader>
-                  {table.getHeaderGroups().map((headerGroup) => (
-                    <TableRow key={headerGroup.id}>
-                      {headerGroup.headers.map((header) => (
-                        <TableHead key={header.id}>
-                          {flexRender(header.column.columnDef.header, header.getContext())}
-                        </TableHead>
+        <FormField
+          control={form.control}
+          name="id"
+          render={({ field }) => (
+            <FormItem className="flex-1">
+              <FormLabel htmlFor="id">Link or ID</FormLabel>
+              <FormControl>
+                <Input
+                  id="id"
+                  placeholder="Enter link to paper or ID"
+                  {...field}
+                  onChange={(e) => {
+                    field.onChange(e);
+                    onSearch(form.getValues("searchQuery"), form.getValues("authors"), e.target.value);
+                  }}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+      {searchResults.length > 0 && (
+        <FormItem>
+          <p className="text-sm font-medium text-gray-700 mb-2">Select Papers</p>
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <TableHead key={header.id}>
+                        {flexRender(header.column.columnDef.header, header.getContext())}
+                      </TableHead>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows.length ? (
+                  table.getRowModel().rows.map((row) => (
+                    <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </TableCell>
                       ))}
                     </TableRow>
-                  ))}
-                </TableHeader>
-                <TableBody>
-                  {table.getRowModel().rows.length ? (
-                    table.getRowModel().rows.map((row) => (
-                      <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
-                        {row.getVisibleCells().map((cell) => (
-                          <TableCell key={cell.id}>
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    ))
-                  ) : (
-                    <TableRow>
-                      <TableCell colSpan={columns.length} className="h-24 text-center">
-                        No results.
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </div>
-          </FormItem>
-        )}
-        <LoadingButton
-          isLoading={form.formState.isSubmitting}
-          loadingText="Adding...">
-          Add
-        </LoadingButton>
-      </form>
-    </Form>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={columns.length} className="h-24 text-center">
+                      No results.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </FormItem>
+      )}
+      <LoadingButton
+        isLoading={form.formState.isSubmitting}
+        loadingText="Adding...">
+        Add
+      </LoadingButton>
+    </form>
+  </Form>
+  
   );
 }
