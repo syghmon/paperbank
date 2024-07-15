@@ -1,22 +1,64 @@
-# Just Launched:
+# PaperBank 📚
 
-check it out at [PaperBank](https://paper-bank.com)
+**A webapp to manage and streamline your research papers.**
+
+Check it out at [PaperBank](https://paper-bank.com)
 
 ---
 
-# What is this?
+## Features ✨
 
-A webapp to manage research papers.
-I built this using NextJs, Convex, Clerk and the arvix API. 
-It uses the arvix api to simplify the process of importing research papers.
+- **Direct Import:** Search for papers via the arXiv API and import them with one click.
+- **Semantic Search:** Efficiently search through papers and notes using semantic search.
+- **User Authentication:** Secure login and management using Clerk.
 
-## Getting Started
+## Motivation 💡
 
+While working on various projects, I found it cumbersome to keep track of numerous research papers. Initially, I used a Notion page with a table to store links to papers, but the workflow was inefficient and prone to errors. Copying and pasting titles, links, and other metadata manually was time-consuming. PaperBank solves this problem by allowing users to directly search for papers via the arXiv API and import them with one click. Additionally, it features semantic search capabilities that enhance the workflow by allowing you to search through the notes you add to your papers.
 
+## Getting Started 🚀
 
-First, run the development server:
+### Prerequisites
+
+Make sure you have the following installed on your machine:
+
+- Node.js (v14.17.0 or later)
+- npm (v6 or later) or yarn or pnpm or bun
+- Convex CLI
+- Clerk CLI
+
+### Installation
+
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/your-username/paperbank.git
+    cd paperbank
+    ```
+
+2. Install dependencies:
+
+    ```bash
+    npm install
+    # or
+    yarn install
+    # or
+    pnpm install
+    # or
+    bun install
+    ```
+
+3. Set up Convex and Clerk following their documentation:
+
+    - [Convex Documentation](https://docs.convex.dev)
+    - [Clerk Documentation](https://clerk.dev/docs)
+
+### Running the Development Server
+
+To start the development server, run:
 
 ```bash
+npx convex dev &
 npm run dev
 # or
 yarn dev
@@ -28,21 +70,28 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## Learn More 📚
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To learn more about the technologies used in this project, check out the following resources:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - An interactive Next.js tutorial.
+- [Convex Documentation](https://docs.convex.dev) - Learn about using Convex for backend functions.
+- [Clerk Documentation](https://clerk.dev/docs) - Learn about implementing authentication with Clerk.
+- [arXiv API Documentation](https://arxiv.org/help/api) - Learn about accessing research papers via the arXiv API.
 
-## Deploy on Vercel
+## Future Plans 🔮
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Tags:** Although semantic search is powerful, adding tags could improve organization.
+- **Recommender System:** Implement a system to recommend papers based on user preferences and reading history.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Contributing 🤝
+
+Contributions are welcome! Please visit the [GitHub repository](https://github.com/syghmon/paperbank) to report issues or submit pull requests.
+
+## License ⚖️
+
+This project is licensed under the MIT License.
