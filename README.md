@@ -90,7 +90,7 @@ To learn more about the technologies used in this project, check out the followi
 
 ## Contributing 🤝
 
-Contributions are welcome! Please visit the [GitHub repository](https://github.com/syghmon/paperbank) to report issues or submit pull requests.
+Contributions are welcome! Please report issues or submit pull requests.
 
 ## License ⚖️
 
