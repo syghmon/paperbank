@@ -1,6 +1,6 @@
 # PaperBank 📚
 
-**A webapp to manage and streamline your research papers.**
+**A webapp to manage your research papers.**
 
 Check it out at [PaperBank](https://paper-bank.com)
 
